@@ -48,6 +48,8 @@ then
 		exit 1
 	fi
 fi
+
+mkdir $WRITEDIR   #had to put this here otherwise directory doesn't exist
 #echo "Removing the old writer utility and compiling as a native application"
 #make clean
 #make
@@ -60,7 +62,7 @@ done
 OUTPUTSTRING=$(./finder.sh "$WRITEDIR" "$WRITESTR")
 
 # remove temporary directories
-rm -rf /tmp/aeld-data
+#rm -rf /tmp/aeld-data      #had to comment out this line otherwise full-test.sh doesn't find the directory as it was deleted
 
 set +e
 echo ${OUTPUTSTRING} | grep "${MATCHSTR}"
