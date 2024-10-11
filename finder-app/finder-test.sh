@@ -33,6 +33,7 @@ rm -rf "${WRITEDIR}"
 
 # create $WRITEDIR if not assignment1
 assignment=`cat ../conf/assignment.txt`
+echo "Test... $assignment"
 
 if [ $assignment != 'assignment1' ]
 then
@@ -49,20 +50,20 @@ then
 	fi
 fi
 
-mkdir $WRITEDIR   #had to put this here otherwise directory doesn't exist
-#echo "Removing the old writer utility and compiling as a native application"
-#make clean
-#make
+mkdir -p "$WRITEDIR"/"$username"  #had to put this here otherwise directory doesn't exist
+echo "Removing the old writer utility and compiling as a native application"
+make clean
+make
 
 for i in $( seq 1 $NUMFILES)
 do
-	./writer.sh "$WRITEDIR/${username}$i.txt" "$WRITESTR"
+	./writer "$WRITEDIR/$username/$i.txt" "$WRITESTR"
 done
 
 OUTPUTSTRING=$(./finder.sh "$WRITEDIR" "$WRITESTR")
 
 # remove temporary directories
-#rm -rf /tmp/aeld-data      #had to comment out this line otherwise full-test.sh doesn't find the directory as it was deleted
+rm -rf /tmp/aeld-data      #had to comment out this line otherwise full-test.sh doesn't find the directory as it was deleted
 
 set +e
 echo ${OUTPUTSTRING} | grep "${MATCHSTR}"
